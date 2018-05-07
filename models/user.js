@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 const bcrytp = require('bcrypt-nodejs')
 const crytpo = require('crypto')
 const UserSchema = Schema({
-    usernaname:{
+    username:{
         type:String,
         unique:true,
         lowercase:true
@@ -30,7 +30,7 @@ const UserSchema = Schema({
         type:String,
     }
 })
-UserSchema.pre('save',(next)=>{
+UserSchema.pre('save',function(next){
     let user = this
     if(!user.isModified('password')) return next()
 
@@ -48,4 +48,4 @@ UserSchema.methods.gravatar= function(){
     const md5 = crypto.createHash('md5').update(this.email).digest('hex')
     return `https://gravatar.com/avatar/${md5}?s=200&d=retro`
 }
-module.exports=mongoose.model('User',userSchema)
+module.exports=mongoose.model('User',UserSchema)
